@@ -112,7 +112,7 @@ def needleman_wunsch(sequence1, sequence2, match = 1, mismatch = -1, gap = -2):#
 #----------------------------------------------
 #PROGRESSIVE MULTIPLE SEQUENCE ALIGNMENT ALGORITHM
 #CALCULATION OF SCORE FOR EACH PAIR
-def calc_pair_scores(sequences, match=1, mismatch=-1, gap=-2):
+def calc_pair_scores(sequences):
     n = len(sequences)
     scores = [[0 for _ in range(n)] for _ in range(n)]  # Use list of lists instead of np.zeros
     for i in range(n):

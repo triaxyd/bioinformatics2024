@@ -74,37 +74,37 @@ def needleman_wunsch(sequence1, sequence2, match = 1, mismatch = -1, gap = -2):#
                 matrix[i][j]= max(matrix[i][j-1]+gap, matrix[i-1][j]+gap, matrix[i-1][j-1]+mismatch)
 
     #now we backtrack and compare
-    alignedseq1=""
-    alignedseq2=""
+    alignedseq1 = ""
+    alignedseq2 = ""
 
-    i=len1
-    j=len2
+    i = len1
+    j = len2
 
-    while(i>0 or j>0):
+    while(i>0 and j>0):
         if sequence1[i-1] == sequence2[j-1]:#if the characters match append and go to the next diagonal char
-            alignedseq1+= sequence1[i-1]
-            alignedseq2+= sequence2[j-1]
+            alignedseq1 += sequence1[i-1]
+            alignedseq2 += sequence2[j-1]
             i-=1
             j-=1
-        elif sequence1[i-1]!=sequence2[j-1]:#if they dont match, we create a list to find the max value in order to backtrack
-            mismatch_list= [matrix[i-1][j-1], matrix[i-1][j], matrix[i][j-1]]
+        elif sequence1[i-1] != sequence2[j-1]:#if they dont match, we create a list to find the max value in order to backtrack
+            mismatch_list = [matrix[i-1][j-1], matrix[i-1][j], matrix[i][j-1]]
 
-            if max(mismatch_list) ==mismatch_list[0] :#if the diagonal is max, backtrack there
+            if max(mismatch_list) == mismatch_list[0] :#if the diagonal is max, backtrack there
                 alignedseq1+= sequence1[i-1]
                 alignedseq2+= sequence2[j-1]
                 i-=1
                 j-=1
-            if max(mismatch_list)==mismatch_list[1]:#if the top value is max
-                alignedseq1+=sequence1[i-1]# keep the char from the top
-                alignedseq2+="-"#put a gap for the other
+            if max(mismatch_list) == mismatch_list[1]:#if the top value is max
+                alignedseq1 += sequence1[i-1]# keep the char from the top
+                alignedseq2 += "-"#put a gap for the other
                 i-=1#move up
-            if max(mismatch_list)==mismatch_list[2]:#if the left value is max
-                alignedseq1+="-"#put a gap for the mismatched char
-                alignedseq2+=sequence2[j-1]# keep the char from the left
-                j-=1#move left
+            if max(mismatch_list) == mismatch_list[2]:#if the left value is max
+                alignedseq1 += "-"#put a gap for the mismatched char
+                alignedseq2 += sequence2[j-1]# keep the char from the left
+                j -= 1#move left
 
-    alignedseq1=alignedseq1[::-1]
-    alignedseq2=alignedseq2[::-1]
+    alignedseq1 = alignedseq1[::-1]
+    alignedseq2 = alignedseq2[::-1]
 
     return matrix[len1][len2], alignedseq1, alignedseq2
   

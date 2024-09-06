@@ -144,7 +144,7 @@ def find_min_distance(distance_matrix):
                 x,y=i,j
     return x,y
 #####################################################################
-#UPGMA- Unweighted Pair Group Method with Arithmetic Mean- Making guide trees in order to implement progressive alignment
+#UPGMA - Unweighted Pair Group Method with Arithmetic Mean - Making guide trees in order to implement progressive alignment
 '''
 Upgma steps
 1. start with each sequence as its own cluster
@@ -160,7 +160,7 @@ def create_labels(sequences):#creating labels in order to cluster sequences
 def join_labels(labels,clust1,clust2):#combines the labels of two clusters(lists of sequences)
     if clust2 < clust1:#swap indices if they are not in order, to avoid potential errors
         clust1, clust2 = clust2, clust1
-    labels[clust1]="("+labels[clust1]+","+labels[clust2]+")"#join cluster on smaller index
+    labels[clust1] = "("+labels[clust1]+","+labels[clust2]+")"#join cluster on smaller index
     del labels[clust2]#delete the other cluster
 
 def update_distance_matrix(distance_matrix, clust1, clust2):
@@ -182,7 +182,7 @@ def update_distance_matrix(distance_matrix, clust1, clust2):
     del distance_matrix[clust2]
 
 def UPGMA(distance_matrix, labels):
-    while len(labels)>1:
+    while len(labels) > 1:
         x,y=find_min_distance(distance_matrix)
         update_distance_matrix(distance_matrix,x,y)
         join_labels(labels,x,y)
@@ -192,9 +192,9 @@ def UPGMA(distance_matrix, labels):
 def parse_guide_tree(newick_str):
     t = ete3.Tree(newick_str + ';')
     return t
+
 ###############################
 #implement progressive alignment
-
 def progressive_alignment(sequences,guide_tree):
     label_to_sequence = {label: sequence for label, sequence in zip(create_labels(sequences), sequences)}
     alignments={}#dictionary to store alignments
@@ -230,15 +230,13 @@ def align_to_final(final, sequences):#align all sequences to final sequence
 
 
 
+#----------------------------------------------
+#HMM FOR MULTIPLE SEQUENCE ALIGNMENT
 def _get_states(i):
     return 'M{}'.format(i), 'I{}'.format(i), 'D{}'.format(i)
 
 
-
-#----------------------------------------------
-#HMM FOR MULTIPLE SEQUENCE ALIGNMENT
 class profile_HMM:
-
     def __init__(self, sequences):
         self.sequences = sequences
         self.t_prob = {}  
@@ -455,13 +453,6 @@ class profile_HMM:
 
 
 
-    
-    
-
-            
-    
-
-
 #----------------------------------------------
 #MAIN
 if __name__ == '__main__':
@@ -501,13 +492,13 @@ if __name__ == '__main__':
     
 
     #Global and multiple alignment
-    score_matrix=calc_pair_scores(datasetA)
-    distance_matrix=cal_pair_distances(datasetA,score_matrix)
-    labels= create_labels(datasetA)
-    result= UPGMA(distance_matrix,labels)
+    score_matrix = calc_pair_scores(datasetA)
+    distance_matrix = cal_pair_distances(datasetA,score_matrix)
+    labels = create_labels(datasetA)
+    result = UPGMA(distance_matrix,labels)
     guide_tree = parse_guide_tree(result)
 
-    final_alignment=progressive_alignment(datasetA , guide_tree)
+    final_alignment = progressive_alignment(datasetA , guide_tree)
     print('\n'*2 + '\n2.    Final Multiple Sequence Alignment: ',final_alignment)
 
 
@@ -534,7 +525,7 @@ if __name__ == '__main__':
 
     
     #calculate viterbi path and score for each sequence in datasetB
-    print('\nCalculating Viterbi Path and Score for each sequence in datasetB\n')
+    print('\nCalculating Viterbi Alignment Path and Score for each sequence in datasetB\n')
     for sequence in datasetB:
         prob, alignment_path = model.calculate_viterbi(sequence)
         print(f"Sequence in datasetB: {sequence}")
